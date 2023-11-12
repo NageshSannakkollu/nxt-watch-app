@@ -1,0 +1,55 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.logo-image {
+  height: 30px;
+  width: 100px;
+  text-align: center;
+}
+.login-form-container {
+  padding: 30px;
+  box-shadow: 0px 0px 2px 2px #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+.input-field-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.input-field {
+  padding: 6px 10px;
+  margin-top: 5px;
+}
+.show-password-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.login-button {
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #3b82f6;
+  border: 0;
+  color: #ffffff;
+  width: 100%;
+}
+.error-message {
+  color: #ff0000;
+  font-weight: bold;
+}
