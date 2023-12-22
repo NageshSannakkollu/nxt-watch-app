@@ -1,0 +1,38 @@
+.trending-list-container {
+  top: 120px;
+  position: sticky;
+}
+.trending {
+  color: red;
+}
+.trending-heading-container {
+  position: sticky;
+  top: 100px;
+}
+.failure-image {
+  height: 300px;
+  width: 330px;
+}
+.trending-container {
+  padding-left: 100px;
+}
+.failure-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 1px;
+}
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.gaming-list-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}

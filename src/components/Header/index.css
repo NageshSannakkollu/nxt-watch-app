@@ -1,22 +1,40 @@
 .nav-container {
   display: flex;
+  height: 70px;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 50px;
+  height: 20%;
 }
 .logo-image {
   height: 25px;
   width: 100px;
 }
+.sun-theme-icon {
+  height: 30px;
+  width: 30px;
+}
+
+.theme-icon {
+  height: 40px;
+  width: 40px;
+  color: #f1f1f1;
+}
 .profile-image {
   height: 20px;
   width: 20px;
-  margin-left: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 .theme-profile-logout-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
+  list-style-type: none;
 }
 .theme {
   margin-left: 15px;
@@ -27,4 +45,41 @@
 }
 .logout-button {
   margin-left: 15px;
+}
+.logout-popup-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 40px 60px;
+  border-radius: 6px;
+}
+.popup-inside-container {
+  background-color: #7e858e;
+  padding: 40px 60px;
+  border-radius: 6px;
+  font-family: 'Roboto';
+  color: #f9f9f9;
+}
+.buttons-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 50px;
+}
+.cancel-button {
+  background-color: #f1f1f1;
+}
+
+.confirm-button {
+  background-color: #3b82f6;
+  color: #f9f9f9;
+}
+
+.button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
 }

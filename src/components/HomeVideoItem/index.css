@@ -1,0 +1,54 @@
+.videos-container {
+  height: 200px;
+  width: 300px;
+  list-style-type: none;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.main-image {
+  height: 120px;
+  width: 150px;
+}
+
+.thumbnail-picture {
+  width: 250px;
+  height: 150px;
+}
+.home-videos-container {
+  display: flex;
+  flex-wrap: wrap;
+  height: 300px;
+  width: 250px;
+  margin: 10px;
+  border: 1px solid #000;
+}
+.views-count-published-time-container {
+  display: flex;
+  align-items: center;
+}
+.profile-image-title-info-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.profile-information-details-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+.profile-image {
+  height: 35px;
+  width: 30px;
+  margin-top: 20px;
+  margin-right: 10px;
+}
+
+.link-item {
+  text-decoration: none;
+  color: none;
+}
+.title {
+  margin-top: 0;
+  padding-top: 0;
+}

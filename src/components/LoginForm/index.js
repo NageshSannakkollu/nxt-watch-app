@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import {Redirect} from 'react-router-dom'
 import './index.css'
 
 class LoginForm extends Component {
@@ -12,8 +13,8 @@ class LoginForm extends Component {
   }
 
   renderSuccessView = jwtToken => {
-    Cookies.set('jwt_token', jwtToken, {expires: 30})
     const {history} = this.props
+    Cookies.set('jwt_token', jwtToken, {expires: 30, path: '/'})
     history.replace('/')
   }
 
@@ -33,7 +34,7 @@ class LoginForm extends Component {
 
     const response = await fetch(url, options)
     const data = await response.json()
-    console.log(data)
+
     if (response.ok) {
       this.renderSuccessView(data.jwt_token)
     } else {
@@ -60,7 +61,7 @@ class LoginForm extends Component {
 
   renderPassword = () => {
     const {password, clickOnShowPassword} = this.state
-    console.log(clickOnShowPassword)
+
     const passwordClass = clickOnShowPassword ? 'text' : 'password'
     return (
       <div className="input-field-container">
@@ -93,12 +94,16 @@ class LoginForm extends Component {
 
   render() {
     const {showErrorMessage, errorMsg} = this.state
+    const jwtToken = Cookies.get('jwt_token')
+    if (jwtToken !== undefined) {
+      return <Redirect to="/" />
+    }
     return (
       <div className="app-container">
         <div className="login-form-container">
           <img
             src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-            alt="logo"
+            alt="website logo"
             className="logo-image"
           />
           <form className="form-container" onSubmit={this.onSubmitForm}>

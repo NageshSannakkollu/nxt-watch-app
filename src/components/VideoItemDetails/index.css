@@ -1,0 +1,49 @@
+.video-details-container {
+  margin-top: 150px;
+  margin-left: 200px;
+}
+.video-item-player-title {
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+}
+.react-video-player-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.views-time-container {
+  display: flex;
+  align-items: center;
+}
+
+.buttons {
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  background-color: transparent;
+}
+.image-subscription-container {
+  display: flex;
+  align-items: flex-start;
+}
+.ib-cricket-image {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  margin-left: 0;
+  margin-top: 5px;
+  padding: 10px;
+  margin-right: 10px;
+}
+.name-subscription-container {
+}
+.video-item-details-container {
+  padding: 120px;
+  margin-left: 150px;
+}
+.blue {
+  color: #00306e;
+  font-weight: 600;
+}
