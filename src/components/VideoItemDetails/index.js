@@ -2,6 +2,8 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import ReactPlayer from 'react-player'
 import Loader from 'react-loader-spinner'
+import {formatDistanceToNow} from 'date-fns'
+import {BsDot} from 'react-icons/bs'
 import {AiOutlineLike, AiOutlineDislike} from 'react-icons/ai'
 import {BiListPlus} from 'react-icons/bi'
 import SavedVideosContext from '../../context/SavedVideosContext'
@@ -21,7 +23,7 @@ class VideoItemDetails extends Component {
   state = {
     apiStatus: apiConstants.initial,
     videoDetailsList: {},
-    clickOnSave: false,
+    clickOnSave: true,
     clickOnLike: false,
     clickOnUnLike: false,
   }
@@ -86,26 +88,43 @@ class VideoItemDetails extends Component {
   renderVideoDetailsSuccessView = () => (
     <SavedVideosContext.Consumer>
       {value => {
-        const {addToSavedVideos, deleteSavedVideo} = value
+        const {
+          addToSavedVideos,
+          deleteSavedVideo,
+          backgroundTheme,
+          savedVideosList,
+        } = value
         const {
           videoDetailsList,
           clickOnSave,
           clickOnLike,
           clickOnUnLike,
         } = this.state
+        const saveButtonStatus = clickOnSave ? 'Save' : 'Saved'
+        const buttonsClassName = clickOnSave ? '' : 'blue'
+        const likeButtonClassName = clickOnLike ? 'blue' : ''
+        const unLikeButtonClassName = clickOnUnLike ? 'blue' : ''
+        const successBackgroundColor =
+          backgroundTheme === 'dark' ? 'success-background-dark' : ''
         const saveButtonClicked = () => {
           this.setState(prevState => ({clickOnSave: !prevState.clickOnSave}))
-          if (clickOnSave === false) {
+          if (clickOnSave) {
             addToSavedVideos({...videoDetailsList})
+            const checkSavedVideosId = savedVideosList.find(eachVideo => {
+              if (eachVideo.id === videoDetailsList.id) {
+                console.log('True')
+              } else {
+                console.log('False')
+              }
+              return null
+            })
+
+            console.log(`Check Saved Id: ${checkSavedVideosId}`)
           } else {
-            console.log(clickOnSave)
+            deleteSavedVideo({...videoDetailsList})
           }
         }
 
-        const saveButtonStatus = clickOnSave ? 'Saved' : 'Save'
-        const buttonsClassName = clickOnSave ? 'blue' : ''
-        const likeButtonClassName = clickOnLike ? 'blue' : ''
-        const unLikeButtonClassName = clickOnUnLike ? 'blue' : ''
         const {
           name,
           title,
@@ -117,17 +136,25 @@ class VideoItemDetails extends Component {
           description,
           id,
         } = videoDetailsList
+        const howOldVideo = new Date(publishedAt)
+        const formattedDate = formatDistanceToNow(new Date(howOldVideo))
 
         return (
-          <div className="video-item-details-container" key={id}>
-            <ReactPlayer url={videoUrl} />
-            <h1 className="video-item-player-title">{title}</h1>
+          <div
+            className={`video-item-details-container ${successBackgroundColor}`}
+            key={id}
+          >
+            <ReactPlayer url={videoUrl} className="react-player" />
+            <p className="video-item-player-title">{title}</p>
             <div className="react-video-player-buttons">
               <div className="views-time-container">
                 <p>{viewCount} views</p>
-                <p>{publishedAt}</p>
+                <p>
+                  <BsDot className="dot" />
+                  {formattedDate}
+                </p>
               </div>
-              <div>
+              <div className="like-dislike-buttons-save-container">
                 <button
                   type="button"
                   className={`buttons ${likeButtonClassName}`}
@@ -135,7 +162,7 @@ class VideoItemDetails extends Component {
                 >
                   <p>
                     <AiOutlineLike />
-                    like
+                    Like
                   </p>
                 </button>
                 <button
@@ -145,7 +172,7 @@ class VideoItemDetails extends Component {
                 >
                   <p>
                     <AiOutlineDislike />
-                    Unlike
+                    DisLike
                   </p>
                 </button>
                 <button
@@ -164,11 +191,11 @@ class VideoItemDetails extends Component {
             <div className="image-subscription-container">
               <img
                 src={profileImageUrl}
-                alt="profile"
+                alt="channel logo"
                 className="ib-cricket-image"
               />
               <div className="name-subscription-container">
-                <h4>{name}</h4>
+                <p>{name}</p>
                 <p>{subscriberCount} subscribers</p>
                 <p>{description}</p>
               </div>
@@ -180,25 +207,58 @@ class VideoItemDetails extends Component {
   )
 
   renderLoadingView = () => (
-    <div className="loader-container" data-testid="loader">
-      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
-    </div>
+    <SavedVideosContext.Consumer>
+      {value => {
+        const {backgroundTheme} = value
+        const loadingBackgroundColor =
+          backgroundTheme === 'dark' ? 'success-background-dark' : ''
+
+        return (
+          <div
+            className={`loader-container ${loadingBackgroundColor}`}
+            data-testid="loader"
+          >
+            <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+          </div>
+        )
+      }}
+    </SavedVideosContext.Consumer>
   )
 
+  clickOnRetryButton = () => {
+    this.getVideoDetails()
+  }
+
   renderFailureView = () => (
-    <div className="failure-container">
-      <img
-        src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
-        alt="failure"
-        className="failure-image"
-      />
-      <h3>Oops! Something Went Wrong</h3>
-      <p>We are having some trouble to complete your request.</p>
-      <p>Please try again.</p>
-      <button type="button" className="retry-button">
-        Retry
-      </button>
-    </div>
+    <SavedVideosContext.Consumer>
+      {value => {
+        const {backgroundTheme} = value
+        const failureBackgroundColor =
+          backgroundTheme === 'dark' ? 'success-background-dark' : ''
+        return (
+          <div className={`failure-container ${failureBackgroundColor}`}>
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
+              alt="failure view"
+              className="failure-image"
+            />
+            <h3>Oops! Something Went Wrong</h3>
+            <p>
+              We are having some trouble to complete your request. Please try
+              again.
+            </p>
+
+            <button
+              type="button"
+              className="retry-button"
+              onClick={this.clickOnRetryButton}
+            >
+              Retry
+            </button>
+          </div>
+        )
+      }}
+    </SavedVideosContext.Consumer>
   )
 
   renderVideoDetails = () => {
@@ -219,8 +279,15 @@ class VideoItemDetails extends Component {
     return (
       <div>
         <Header />
-        <SideButtons />
-        <div data-testid="videoItemDetails">{this.renderVideoDetails()}</div>
+        <div className="video-details-container">
+          <SideButtons />
+          <div
+            data-testid="videoItemDetails"
+            className="video-details-background-color"
+          >
+            {this.renderVideoDetails()}
+          </div>
+        </div>
       </div>
     )
   }

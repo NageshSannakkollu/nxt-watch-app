@@ -3,8 +3,8 @@ import {formatDistanceToNow} from 'date-fns'
 import {BsDot} from 'react-icons/bs'
 import './index.css'
 
-const TrendingVideoItem = props => {
-  const {trendingVideoDetails} = props
+const SavedVideoItem = props => {
+  const {savedVideoDetails} = props
   const {
     title,
     id,
@@ -12,24 +12,24 @@ const TrendingVideoItem = props => {
     publishedAt,
     viewCount,
     thumbnailUrl,
-  } = trendingVideoDetails
+  } = savedVideoDetails
   const howOldVideo = new Date(publishedAt)
   const formattedDate = formatDistanceToNow(new Date(howOldVideo))
 
   return (
-    <Link to={`/videos/${id}`} className="link-tending-videos">
-      <li className="trending-videos-list-container">
+    <Link to={`/videos/${id}`} className="link-gaming-videos">
+      <li className="gaming-list-item-container">
         <img
           src={thumbnailUrl}
           alt="video thumbnail"
-          className="thumbnail-image"
+          className="saved-thumbnail-image"
         />
-        <div className="trending-description-container">
-          <p>{title}</p>
-          <p>{name}</p>
+        <div>
+          <p key={title}>{title}</p>
+          <p key={name}>{name}</p>
           <div className="views-published-container">
-            <p>{viewCount}views</p>
-            <p>
+            <p key={viewCount}>{viewCount}views</p>
+            <p key={publishedAt}>
               <BsDot className="dot" />
               {formattedDate}
             </p>
@@ -40,4 +40,4 @@ const TrendingVideoItem = props => {
   )
 }
 
-export default TrendingVideoItem
+export default SavedVideoItem

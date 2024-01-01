@@ -15,8 +15,7 @@ const HomeVideoItem = props => {
     publishedAt,
   } = homeVideosDetails
 
-  const findTiming = formatDistanceToNow(new Date())
-  console.log(findTiming)
+  const findTiming = formatDistanceToNow(new Date(publishedAt))
 
   return (
     <Link to={`/videos/${id}`} className="link-item" key={id}>
@@ -27,13 +26,17 @@ const HomeVideoItem = props => {
           className="thumbnail-picture"
         />
         <div className="profile-image-title-info-container">
-          <img src={profileImageUrl} alt={name} className="profile-image" />
+          <img
+            src={profileImageUrl}
+            alt="channel logo"
+            className="profile-image"
+          />
           <div className="profile-information-details-container">
             <p className="title">{title}</p>
             <p className="name">{name}</p>
             <div className="views-count-published-time-container">
               <p>{viewCount} views</p>
-              <p>.{publishedAt}</p>
+              <p>.{findTiming}</p>
             </div>
           </div>
         </div>

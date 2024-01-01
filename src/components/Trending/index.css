@@ -1,35 +1,43 @@
-.trending-list-container {
-  top: 120px;
-  position: sticky;
+.side-banner-trending-container {
+  display: flex;
+  margin-top: 110px;
 }
-.trending {
-  color: red;
-}
-.trending-heading-container {
-  position: sticky;
-  top: 100px;
-}
-.failure-image {
-  height: 300px;
-  width: 330px;
+.trending-background {
+  background-color: #181818;
 }
 .trending-container {
-  margin-left: 200px;
-  padding-top: 150px;
-  position: static;
-  top: 200px;
+  width: 100%;
 }
-.failure-container {
+.trending-heading-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  position: fixed;
+  background-color: #ffffff;
+}
+.trending-icon {
+  border-radius: 50px;
+  height: 50px;
+  width: 50px;
+  padding: 7px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.unordered-tending-list {
+  margin-left: 0;
+  padding-left: 0;
+  margin-top: 100px;
+}
+.trending-list-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  line-height: 1px;
 }
-.loader-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.trend-heading-bg {
+  background-color: #313131;
+  color: #ffffff;
+}
+.red-trending-icon {
+  color: #ff0000;
+  background-color: #181818;
 }

@@ -7,6 +7,7 @@ import SideButtons from '../SideButtons'
 import GamingItem from '../GamingItem'
 
 import './index.css'
+import SavedVideosContext from '../../context/SavedVideosContext'
 
 const apiConstants = {
   initial: 'INITIAL',
@@ -18,7 +19,7 @@ const apiConstants = {
 class Trending extends Component {
   state = {
     apiStatus: apiConstants.initial,
-    trendingVideosList: [],
+    gamingVideosList: [],
   }
 
   componentDidMount() {
@@ -37,9 +38,9 @@ class Trending extends Component {
     }
     const response = await fetch(trendingVideosUrl, options)
     if (response.ok) {
-      const trendingVideosResponse = await response.json()
+      const gamingVideosResponse = await response.json()
 
-      const updatedTrendingVideos = trendingVideosResponse.videos.map(
+      const updatedTrendingVideos = gamingVideosResponse.videos.map(
         eachTrends => ({
           id: eachTrends.id,
           title: eachTrends.title,
@@ -49,7 +50,7 @@ class Trending extends Component {
       )
 
       this.setState({
-        trendingVideosList: updatedTrendingVideos,
+        gamingVideosList: updatedTrendingVideos,
         apiStatus: apiConstants.success,
       })
     } else {
@@ -57,25 +58,36 @@ class Trending extends Component {
     }
   }
 
-  renderSuccessfulTrendingVideosView = () => {
-    const {trendingVideosList} = this.state
+  renderGamingSuccessView = () => {
+    const {gamingVideosList} = this.state
     return (
-      <div className="trending-list-container">
-        <div className="trending-heading-container">
-          <h1>
-            <GiHeartBeats className="trending" />
-            Gaming
-          </h1>
-        </div>
-        <ul className="gaming-list-container">
-          {trendingVideosList.map(eachTrendingVideo => (
-            <GamingItem
-              trendingVideoDetails={eachTrendingVideo}
-              key={eachTrendingVideo.id}
-            />
-          ))}
-        </ul>
-      </div>
+      <SavedVideosContext.Consumer>
+        {value => {
+          const {backgroundTheme} = value
+          const gamingHeadingBgContainer =
+            backgroundTheme === 'dark' ? 'gaming-heading-background' : ''
+          const gamingIconColor =
+            backgroundTheme === 'dark' ? 'gaming-red-icon' : ''
+          return (
+            <div className="gaming-main-container">
+              <div
+                className={`gaming-heading-container ${gamingHeadingBgContainer}`}
+              >
+                <GiHeartBeats className={`gaming-icon ${gamingIconColor}`} />
+                <h1>Gaming</h1>
+              </div>
+              <ul className="gaming-items-container">
+                {gamingVideosList.map(eachTrendingVideo => (
+                  <GamingItem
+                    gamingVideoDetails={eachTrendingVideo}
+                    key={eachTrendingVideo.id}
+                  />
+                ))}
+              </ul>
+            </div>
+          )
+        }}
+      </SavedVideosContext.Consumer>
     )
   }
 
@@ -93,7 +105,7 @@ class Trending extends Component {
     <div className="failure-container">
       <img
         src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
-        alt="failure"
+        alt="failure view"
         className="failure-image"
       />
       <h3>Oops! Something Went Wrong</h3>
@@ -109,11 +121,11 @@ class Trending extends Component {
     </div>
   )
 
-  renderTrendingVideos = () => {
+  renderGamingVideos = () => {
     const {apiStatus} = this.state
     switch (apiStatus) {
       case apiConstants.success:
-        return this.renderSuccessfulTrendingVideosView()
+        return this.renderGamingSuccessView()
       case apiConstants.inProgress:
         return this.renderLoadingView()
       case apiConstants.failure:
@@ -127,9 +139,25 @@ class Trending extends Component {
     return (
       <div>
         <Header />
-        <SideButtons />
-        <div className="trending-container" data-testid="gaming">
-          {this.renderTrendingVideos()}
+        <div className="gaming-container">
+          <SideButtons />
+          <SavedVideosContext.Consumer>
+            {value => {
+              const {backgroundTheme} = value
+              const gamingBackgroundColor =
+                backgroundTheme === 'dark' ? 'game-dark-background' : ''
+
+              return (
+                <div
+                  className={`gaming-views-container ${gamingBackgroundColor}`}
+                  data-testid="gaming"
+                >
+                  {this.renderGamingVideos()}
+                </div>
+              )
+            }}
+          </SavedVideosContext.Consumer>
+          )
         </div>
       </div>
     )

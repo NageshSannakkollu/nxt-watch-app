@@ -1,0 +1,17 @@
+.link-gaming-videos {
+  text-decoration: none;
+}
+
+.saved-thumbnail-image {
+  margin-right: 10px;
+  height: 150px;
+  width: 250px;
+}
+
+.views-published-container {
+  display: flex;
+}
+.gaming-list-item-container {
+  display: flex;
+  margin-top: 10px;
+}

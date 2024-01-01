@@ -8,8 +8,9 @@ import Header from '../Header'
 import HomeVideoItem from '../HomeVideoItem'
 import SideButtons from '../SideButtons'
 import './index.css'
+import SavedVideosContext from '../../context/SavedVideosContext'
 
-const apiConstants = {
+const homeApiConstants = {
   initial: 'INITIAL',
   success: 'SUCCESS',
   failure: 'FAILURE',
@@ -18,9 +19,8 @@ const apiConstants = {
 
 class Home extends Component {
   state = {
-    clickedOnThemeChanger: false,
     homeVideosList: [],
-    apiStatus: apiConstants.initial,
+    apiStatus: homeApiConstants.initial,
     searchInput: '',
     showBannerSection: true,
   }
@@ -40,7 +40,7 @@ class Home extends Component {
   })
 
   getHomeVideos = async () => {
-    this.setState({apiStatus: apiConstants.inProgress})
+    this.setState({apiStatus: homeApiConstants.inProgress})
     const {searchInput} = this.state
     const searchAlphaInput = searchInput.toLowerCase()
     const jwtToken = Cookies.get('jwt_token')
@@ -66,10 +66,10 @@ class Home extends Component {
 
       this.setState({
         homeVideosList: updatedData,
-        apiStatus: apiConstants.success,
+        apiStatus: homeApiConstants.success,
       })
     } else {
-      this.setState({apiStatus: apiConstants.failure})
+      this.setState({apiStatus: homeApiConstants.failure})
     }
   }
 
@@ -127,33 +127,45 @@ class Home extends Component {
   }
 
   renderFailureView = () => (
-    <div className="failure-container">
-      <img
-        src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
-        alt="failure view"
-        className="failure-image"
-      />
-      <h3>Oops! Something Went Wrong</h3>
-      <p>We are having some trouble to complete your request.</p>
-      <p>Please try again.</p>
-      <button
-        type="button"
-        className="retry-button"
-        onClick={this.clickOnRetry}
-      >
-        Retry
-      </button>
-    </div>
+    <SavedVideosContext.Consumer>
+      {value => {
+        const {backgroundTheme} = value
+        const homeFailureViewImages =
+          backgroundTheme === 'dark'
+            ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
+            : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
+
+        return (
+          <div className="failure-container">
+            <img
+              src={homeFailureViewImages}
+              alt="failure view"
+              className="failure-image"
+            />
+            <h3>Oops! Something Went Wrong</h3>
+            <p>We are having some trouble to complete your request.</p>
+            <p>Please try again.</p>
+            <button
+              type="button"
+              className="retry-button"
+              onClick={this.clickOnRetry}
+            >
+              Retry
+            </button>
+          </div>
+        )
+      }}
+    </SavedVideosContext.Consumer>
   )
 
   renderHomeVideosView = () => {
     const {apiStatus} = this.state
     switch (apiStatus) {
-      case apiConstants.success:
+      case homeApiConstants.success:
         return this.renderHomeVideosSuccessView()
-      case apiConstants.failure:
+      case homeApiConstants.failure:
         return this.renderFailureView()
-      case apiConstants.inProgress:
+      case homeApiConstants.inProgress:
         return this.renderLoadingView()
       default:
         return null
@@ -164,73 +176,104 @@ class Home extends Component {
     this.setState({searchInput: event.target.value})
   }
 
-  enterSearchInput = event => {
-    if (event.key === 'Enter') {
-      this.getHomeVideos()
-    }
-  }
-
   closeBanner = () => {
     this.setState({showBannerSection: false})
   }
 
-  render() {
-    const {clickedOnThemeChanger, showBannerSection} = this.state
-    const appTheme = clickedOnThemeChanger ? 'dark' : 'white'
-    const appThemeVideos = clickedOnThemeChanger ? 'videos-background-dark' : ''
+  clickOnSearchIcon = () => {
+    this.getHomeVideos()
+  }
 
-    const searchContainerDarkTheme = clickedOnThemeChanger
-      ? 'search-dark-container'
-      : ''
-    const searchClassName = clickedOnThemeChanger
-      ? 'dark-search-class-name'
-      : ''
+  render() {
+    const {showBannerSection} = this.state
+
     return (
-      <div className={`${appTheme}`}>
-        <div className="header-container">
-          <Header clickedOnTheme={this.clickedOnTheme} appTheme={appTheme} />
-        </div>
-        <div className="banner-home-container">
-          <SideButtons appTheme={appTheme} />
-          <div className="home-container">
-            {showBannerSection && (
-              <div className="banner-container" data-testid="banner">
-                <div className="banner-image-description-container">
-                  <img
-                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-                    className="banner-image"
-                    alt="banner logo"
-                  />
-                  <p>Buy Nxt Watch Premium prepaid plans with UPI</p>
-                  <button type="button" className="get-it-now-button">
-                    GET IT NOW
-                  </button>
-                </div>
-                <div>
-                  <IoIosClose
-                    className="banner-close-button"
-                    onClick={this.closeBanner}
-                  />
+      <SavedVideosContext.Consumer>
+        {value => {
+          const {backgroundTheme} = value
+          const appThemeVideos =
+            backgroundTheme === 'dark' ? 'videos-background-dark' : ''
+          const searchContainerDarkTheme = backgroundTheme
+            ? 'search-dark-container'
+            : ''
+          const searchClassName = backgroundTheme
+            ? 'dark-search-class-name'
+            : ''
+          return (
+            <div>
+              <Header />
+              <div className="side-banner-home-container">
+                <SideButtons />
+                <div className="home-container">
+                  {showBannerSection && (
+                    <div className="banner-container">
+                      <div
+                        className="banner-image-description-container"
+                        data-testid="banner"
+                      >
+                        <img
+                          src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
+                          className="banner-image"
+                          alt="net watch logo"
+                        />
+                        <p>Buy Nxt Watch Premium prepaid plans with UPI</p>
+                        <button type="button" className="get-it-now-button">
+                          GET IT NOW
+                        </button>
+                      </div>
+                      <div>
+                        <button type="button" data-testid="close">
+                          <IoIosClose
+                            className="banner-close-button"
+                            onClick={this.closeBanner}
+                            alt="close"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <div
+                    className={`search-home-videos-container ${appThemeVideos}`}
+                  >
+                    <div
+                      className={`search-container ${searchContainerDarkTheme}`}
+                    >
+                      <input
+                        type="search"
+                        placeholder="Search"
+                        className={`search-input ${searchClassName}`}
+                        onChange={this.onChangeSearchInput}
+                      />
+                      <hr className="horizontal-line" />
+                      <div>
+                        <button
+                          type="button"
+                          data-testid="searchButton"
+                          onClick={this.clickOnSearchIcon}
+                          onKeyDown={this.enterSearchInput}
+                        >
+                          <span>
+                            <BiSearchAlt2
+                              className="search-icon"
+                              alt="search icon"
+                            />
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      data-testid="home"
+                      className={`home-container-background-color ${backgroundTheme}`}
+                    >
+                      {this.renderHomeVideosView()}
+                    </div>
+                  </div>
                 </div>
               </div>
-            )}
-            <div className={`search-home-videos-container ${appThemeVideos}`}>
-              <div className={`search-container ${searchContainerDarkTheme}`}>
-                <input
-                  type="search"
-                  placeholder="Search"
-                  className={`search-input ${searchClassName}`}
-                  onChange={this.onChangeSearchInput}
-                  onKeyDown={this.enterSearchInput}
-                />
-                <hr className="horizontal-line" />
-                <BiSearchAlt2 className="search-icon" />
-              </div>
-              <div data-testid="home">{this.renderHomeVideosView()}</div>
             </div>
-          </div>
-        </div>
-      </div>
+          )
+        }}
+      </SavedVideosContext.Consumer>
     )
   }
 }

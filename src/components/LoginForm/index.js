@@ -2,6 +2,7 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import {Redirect} from 'react-router-dom'
 import './index.css'
+import SavedVideosContext from '../../context/SavedVideosContext'
 
 class LoginForm extends Component {
   state = {
@@ -99,32 +100,45 @@ class LoginForm extends Component {
       return <Redirect to="/" />
     }
     return (
-      <div className="app-container">
-        <div className="login-form-container">
-          <img
-            src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-            alt="website logo"
-            className="logo-image"
-          />
-          <form className="form-container" onSubmit={this.onSubmitForm}>
-            {this.renderUsername()}
-            {this.renderPassword()}
-            <div className="show-password-container">
-              <input
-                type="checkbox"
-                id="checkbox"
-                className="checkbox"
-                onChange={this.onChangeCheckbox}
-              />
-              <label htmlFor="checkbox">Show Password</label>
+      <SavedVideosContext.Consumer>
+        {value => {
+          const {backgroundTheme} = value
+          const darkLoginBackground =
+            backgroundTheme === 'dark' ? 'dark-login' : ''
+          const darkFormBackground =
+            backgroundTheme === 'dark' ? 'dark-form-container' : ''
+          return (
+            <div className={`app-container ${darkLoginBackground}`}>
+              <div className={`login-form-container ${darkFormBackground}`}>
+                <img
+                  src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
+                  alt="website logo"
+                  className="logo-image"
+                />
+                <form className="form-container" onSubmit={this.onSubmitForm}>
+                  {this.renderUsername()}
+                  {this.renderPassword()}
+                  <div className="show-password-container">
+                    <input
+                      type="checkbox"
+                      id="checkbox"
+                      className="checkbox"
+                      onChange={this.onChangeCheckbox}
+                    />
+                    <label htmlFor="checkbox">Show Password</label>
+                  </div>
+                  <button type="submit" className="login-button">
+                    Login
+                  </button>
+                  {showErrorMessage && (
+                    <p className="error-message">*{errorMsg}</p>
+                  )}
+                </form>
+              </div>
             </div>
-            <button type="submit" className="login-button">
-              Login
-            </button>
-            {showErrorMessage && <p className="error-message">*{errorMsg}</p>}
-          </form>
-        </div>
-      </div>
+          )
+        }}
+      </SavedVideosContext.Consumer>
     )
   }
 }

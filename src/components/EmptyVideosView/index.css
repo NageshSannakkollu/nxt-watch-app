@@ -1,12 +1,12 @@
 .empty-videos-container {
-  padding: 150px;
-  margin-left: 130px;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   line-height: 1.2px;
+  background-size: cover;
+  margin-top: 80px;
 }
 
 .no-saved-video-title {
@@ -15,6 +15,6 @@
 
 .no-saved-videos-image {
   height: 360px;
-  width: 370px;
+  width: 400px;
   margin-bottom: 15px;
 }

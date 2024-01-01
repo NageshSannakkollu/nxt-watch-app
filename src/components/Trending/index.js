@@ -7,6 +7,7 @@ import SideButtons from '../SideButtons'
 import TrendingVideoItem from '../TrendingVideoItem'
 
 import './index.css'
+import SavedVideosContext from '../../context/SavedVideosContext'
 
 const apiConstants = {
   initial: 'INITIAL',
@@ -38,7 +39,6 @@ class Trending extends Component {
     const response = await fetch(trendingVideosUrl, options)
     if (response.ok) {
       const trendingVideosResponse = await response.json()
-
       const updatedTrendingVideos = trendingVideosResponse.videos.map(
         eachTrends => ({
           id: eachTrends.id,
@@ -63,20 +63,34 @@ class Trending extends Component {
   renderSuccessfulTrendingVideosView = () => {
     const {trendingVideosList} = this.state
     return (
-      <ul className="trending-list-container">
-        <div className="trending-heading-container">
-          <h1>
-            <AiFillFire className="trending" />
-            Trending
-          </h1>
-        </div>
-        {trendingVideosList.map(eachTrendingVideo => (
-          <TrendingVideoItem
-            trendingVideoDetails={eachTrendingVideo}
-            key={eachTrendingVideo.id}
-          />
-        ))}
-      </ul>
+      <SavedVideosContext.Consumer>
+        {value => {
+          const {backgroundTheme} = value
+          const trendingHeadingBg =
+            backgroundTheme === 'dark' ? 'trend-heading-bg' : ''
+          const trendingIconColor =
+            backgroundTheme === 'dark' ? 'red-trending-icon' : ''
+
+          return (
+            <div className="trending-list-container">
+              <div
+                className={`trending-heading-container ${trendingHeadingBg}`}
+              >
+                <AiFillFire className={`trending-icon ${trendingIconColor}`} />
+                <h1> Trending</h1>
+              </div>
+              <ul className="unordered-tending-list">
+                {trendingVideosList.map(eachTrendingVideo => (
+                  <TrendingVideoItem
+                    trendingVideoDetails={eachTrendingVideo}
+                    key={eachTrendingVideo.id}
+                  />
+                ))}
+              </ul>
+            </div>
+          )
+        }}
+      </SavedVideosContext.Consumer>
     )
   }
 
@@ -94,7 +108,7 @@ class Trending extends Component {
     <div className="failure-container">
       <img
         src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
-        alt="failure"
+        alt="failure view"
         className="failure-image"
       />
       <h3>Oops! Something Went Wrong</h3>
@@ -128,9 +142,23 @@ class Trending extends Component {
     return (
       <div>
         <Header />
-        <SideButtons />
-        <div className="trending-container" data-testid="trending">
-          {this.renderTrendingVideos()}
+        <div className="side-banner-trending-container">
+          <SideButtons />
+          <SavedVideosContext.Consumer>
+            {value => {
+              const {backgroundTheme} = value
+              const trendingSuccessBackGround =
+                backgroundTheme === 'dark' ? 'trending-background' : ''
+              return (
+                <div
+                  data-testid="trending"
+                  className={`trending-container ${trendingSuccessBackGround}`}
+                >
+                  {this.renderTrendingVideos()}
+                </div>
+              )
+            }}
+          </SavedVideosContext.Consumer>
         </div>
       </div>
     )

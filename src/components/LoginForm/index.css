@@ -4,8 +4,8 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  font-family: 'Roboto';
 }
-
 .logo-image {
   height: 30px;
   width: 100px;
@@ -25,7 +25,6 @@
   align-items: flex-start;
   justify-content: space-between;
   margin-top: 30px;
-  color: #ffffff;
 }
 .input-field-container {
   display: flex;
@@ -58,4 +57,13 @@
 .error-message {
   color: #ff0000;
   font-weight: bold;
+}
+
+.dark-login {
+  background-color: #181818;
+  color: #ffffff;
+}
+
+.dark-form-container {
+  background-color: #000;
 }

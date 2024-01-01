@@ -1,14 +1,18 @@
 .nav-container {
   display: flex;
-  height: 70px;
+  height: 130px;
   justify-content: space-between;
   align-items: center;
   position: fixed;
   top: 0;
   width: 100%;
   padding: 50px;
-  height: 20%;
+  background-color: #ffffff;
 }
+.dark-nav {
+  background-color: #424242;
+}
+
 .logo-image {
   height: 25px;
   width: 100px;
@@ -45,6 +49,14 @@
 }
 .logout-button {
   margin-left: 15px;
+  cursor: pointer;
+  outline: none;
+  padding: 7px 16px;
+  background-color: #3b82f6;
+  color: #f1f1f1;
+  font-weight: 550;
+  border-radius: 6px;
+  font-size: 12px;
 }
 .logout-popup-container {
   display: flex;
@@ -82,4 +94,10 @@
   border-radius: 6px;
   cursor: pointer;
   outline: none;
+}
+.profile-image-button {
+  outline: none;
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
 }

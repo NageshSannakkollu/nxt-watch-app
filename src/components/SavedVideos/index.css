@@ -1,5 +1,64 @@
 .saved-videos-container {
-  padding: 150px;
-  margin-left: 130px;
-  height: 100vh;
+  margin-top: 130px;
+  display: flex;
+  flex-direction: column;
+}
+.saved-videos {
+  display: flex;
+}
+
+.saved-videos-list {
+  list-style-type: none;
+  margin-top: 100px;
+  margin-left: 0;
+  padding-left: 5px;
+}
+.saved-videos-main-container {
+  width: 100%;
+}
+.saved-dark-background {
+  background-color: #181818;
+  color: #ffffff;
+}
+.saved-videos-icon {
+  height: 50px;
+  width: 50px;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding: 7px;
+}
+.saved-videos-heading {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.saved-red-icon {
+  color: #ff0000;
+  border-radius: 50px;
+  background-color: #181818;
+}
+.heading-dark-mode {
+  background-color: #313131;
+  color: #ffffff;
+}
+.link-gaming-videos {
+  text-decoration: none;
+}
+
+.saved-thumbnail-image {
+  margin-right: 10px;
+  height: 150px;
+  width: 250px;
+}
+
+.views-published-container {
+  display: flex;
+}
+.gaming-list-item-container {
+  display: flex;
+  margin-top: 10px;
 }

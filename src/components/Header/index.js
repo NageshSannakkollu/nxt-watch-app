@@ -6,45 +6,38 @@ import Cookies from 'js-cookie'
 import './index.css'
 import SavedVideosContext from '../../context/SavedVideosContext'
 
-const backgroundTheme = {
-  dark: 'DARK',
-  white: 'WHITE',
-}
-
 const Header = props => {
-  const {clickedOnTheme, appTheme} = props
-
   const clickOnLogout = () => {
     Cookies.remove('jwt_token')
     const {history} = props
     history.replace('/login')
   }
-  const oneClickToChangeTheme = () => {
-    clickedOnTheme()
-  }
-
-  const darkThemeLogo =
-    appTheme === 'dark'
-      ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
-      : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
-  const themeChanger =
-    appTheme === 'dark' ? (
-      <WiDaySunny className="theme-icon" />
-    ) : (
-      <FaMoon className="sun-theme-icon" />
-    )
-
-  const saveButtonDisabled = () => {
-    console.log('disabled')
-  }
 
   return (
     <SavedVideosContext.Consumer>
       {value => {
-        const {activeTheme, changeTheme} = value
+        const {backgroundTheme, changeTheme} = value
+        const oneClickToChangeTheme = () => {
+          changeTheme()
+        }
+
+        const darkThemeLogo =
+          backgroundTheme === 'dark'
+            ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+            : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+        const themeChanger =
+          backgroundTheme === 'dark' ? (
+            <WiDaySunny className="theme-icon" />
+          ) : (
+            <FaMoon className="sun-theme-icon" />
+          )
+        const navContainerBackground =
+          backgroundTheme === 'dark' ? 'dark-nav' : ''
+
+        const logoutDarkTheme = backgroundTheme === 'dark' ? 'dark-logout' : ''
 
         return (
-          <nav className="nav-container">
+          <nav className={`nav-container ${navContainerBackground}`}>
             <Link to="/">
               <img
                 src={darkThemeLogo}
@@ -85,7 +78,9 @@ const Header = props => {
                   position="bottom right"
                 >
                   {cancel => (
-                    <div className="logout-popup-container">
+                    <div
+                      className={`logout-popup-container ${logoutDarkTheme}`}
+                    >
                       <div className="popup-inside-container">
                         <p>Are you sure, you want to logout</p>
                         <div className="buttons-container">

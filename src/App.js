@@ -13,32 +13,46 @@ import SavedVideosContext from './context/SavedVideosContext'
 import './App.css'
 
 class App extends Component {
-  state = {savedVideosList: [], activeTheme: 'white'}
+  state = {savedVideosList: [], activeTheme: 'false'}
 
   addToSavedVideos = video => {
-    this.setState(prevState => ({
-      savedVideosList: [...prevState.savedVideosList, video],
-    }))
+    const {savedVideosList} = this.state
+    localStorage.setItem('saved_videos', savedVideosList)
+    const checkId = savedVideosList.find(eachId => eachId.id === video.id)
+    console.log(checkId)
+    if (checkId) {
+      console.log(`CheckedID:${checkId}`)
+    } else {
+      console.log(`CheckedID:${checkId}`)
+      this.setState(prevState => ({
+        savedVideosList: [...prevState.savedVideosList, video],
+      }))
+    }
   }
 
   deleteSavedVideo = video => {
     const {savedVideosList} = this.state
-    const filteredSavedVideo = savedVideosList.filter(
-      eachVideo => eachVideo.id !== video.id,
+    const finalSavedList = savedVideosList.filter(
+      eachId => eachId.id !== video.id,
     )
-    this.setState({filteredSavedVideo: savedVideosList})
+    console.log(finalSavedList)
+    this.setState({savedVideosList: finalSavedList})
+  }
+
+  changeTheme = () => {
+    this.setState(prevState => ({activeTheme: !prevState.activeTheme}))
   }
 
   render() {
-    const {savedVideosList, activeTheme} = this.state
-    console.log(savedVideosList)
+    const {activeTheme, savedVideosList} = this.state
+    const backgroundTheme = activeTheme ? 'white' : 'dark'
     return (
       <BrowserRouter>
         <SavedVideosContext.Provider
           value={{
             savedVideosList,
             addToSavedVideos: this.addToSavedVideos,
-            activeTheme,
+            backgroundTheme,
             changeTheme: this.changeTheme,
             deleteSavedVideo: this.deleteSavedVideo,
           }}
