@@ -88,12 +88,7 @@ class VideoItemDetails extends Component {
   renderVideoDetailsSuccessView = () => (
     <SavedVideosContext.Consumer>
       {value => {
-        const {
-          addToSavedVideos,
-          deleteSavedVideo,
-          backgroundTheme,
-          savedVideosList,
-        } = value
+        const {addToSavedVideos, deleteSavedVideo, backgroundTheme} = value
         const {
           videoDetailsList,
           clickOnSave,
@@ -110,16 +105,6 @@ class VideoItemDetails extends Component {
           this.setState(prevState => ({clickOnSave: !prevState.clickOnSave}))
           if (clickOnSave) {
             addToSavedVideos({...videoDetailsList})
-            const checkSavedVideosId = savedVideosList.find(eachVideo => {
-              if (eachVideo.id === videoDetailsList.id) {
-                console.log('True')
-              } else {
-                console.log('False')
-              }
-              return null
-            })
-
-            console.log(`Check Saved Id: ${checkSavedVideosId}`)
           } else {
             deleteSavedVideo({...videoDetailsList})
           }
@@ -181,7 +166,7 @@ class VideoItemDetails extends Component {
                   onClick={saveButtonClicked}
                 >
                   <p>
-                    <BiListPlus />
+                    <BiListPlus alt="Save" />
                     {saveButtonStatus}
                   </p>
                 </button>

@@ -107,11 +107,15 @@ class LoginForm extends Component {
             backgroundTheme === 'dark' ? 'dark-login' : ''
           const darkFormBackground =
             backgroundTheme === 'dark' ? 'dark-form-container' : ''
+          const loginFormWebsiteLogo =
+            backgroundTheme === 'dark'
+              ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+              : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
           return (
             <div className={`app-container ${darkLoginBackground}`}>
               <div className={`login-form-container ${darkFormBackground}`}>
                 <img
-                  src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
+                  src={loginFormWebsiteLogo}
                   alt="website logo"
                   className="logo-image"
                 />

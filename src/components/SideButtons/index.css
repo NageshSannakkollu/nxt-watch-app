@@ -53,7 +53,21 @@
   width: 50px;
   margin-right: 10px;
 }
-.icons-dark {
-  background-color: #ffffff;
+.bg-dark {
+  background-color: #d7dfe9;
   padding: 6px 10px;
+}
+.trending-dark {
+  background-color: #d7dfe9;
+  padding: 6px 10px;
+  text-align: center;
+}
+.banner-red-icon {
+  color: #ff0b37;
+}
+.button-weight-color {
+  font-weight: bold;
+}
+.normal-weight-color {
+  font-weight: bold;
 }

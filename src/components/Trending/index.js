@@ -9,7 +9,7 @@ import TrendingVideoItem from '../TrendingVideoItem'
 import './index.css'
 import SavedVideosContext from '../../context/SavedVideosContext'
 
-const apiConstants = {
+const trendingApiConstants = {
   initial: 'INITIAL',
   success: 'SUCCESS',
   failure: 'FAILURE',
@@ -18,7 +18,7 @@ const apiConstants = {
 
 class Trending extends Component {
   state = {
-    apiStatus: apiConstants.initial,
+    apiStatus: trendingApiConstants.initial,
     trendingVideosList: [],
   }
 
@@ -27,7 +27,7 @@ class Trending extends Component {
   }
 
   getTrendingVideos = async () => {
-    this.setState({apiStatus: apiConstants.inProgress})
+    this.setState({apiStatus: trendingApiConstants.inProgress})
     const jwtToken = Cookies.get('jwt_token')
     const trendingVideosUrl = 'https://apis.ccbp.in/videos/trending'
     const options = {
@@ -53,10 +53,10 @@ class Trending extends Component {
 
       this.setState({
         trendingVideosList: updatedTrendingVideos,
-        apiStatus: apiConstants.success,
+        apiStatus: trendingApiConstants.success,
       })
     } else {
-      this.setState({apiStatus: apiConstants.failure})
+      this.setState({apiStatus: trendingApiConstants.failure})
     }
   }
 
@@ -127,11 +127,11 @@ class Trending extends Component {
   renderTrendingVideos = () => {
     const {apiStatus} = this.state
     switch (apiStatus) {
-      case apiConstants.success:
+      case trendingApiConstants.success:
         return this.renderSuccessfulTrendingVideosView()
-      case apiConstants.inProgress:
+      case trendingApiConstants.inProgress:
         return this.renderLoadingView()
-      case apiConstants.failure:
+      case trendingApiConstants.failure:
         return this.renderFailureView()
       default:
         return null

@@ -16,9 +16,16 @@ const Header = props => {
   return (
     <SavedVideosContext.Consumer>
       {value => {
-        const {backgroundTheme, changeTheme} = value
+        const {
+          backgroundTheme,
+          changeTheme,
+          changeActiveHomeButtonStatus,
+        } = value
         const oneClickToChangeTheme = () => {
           changeTheme()
+        }
+        const clickOnLogo = () => {
+          changeActiveHomeButtonStatus()
         }
 
         const darkThemeLogo =
@@ -43,6 +50,7 @@ const Header = props => {
                 src={darkThemeLogo}
                 alt="website logo"
                 className="logo-image"
+                onClick={clickOnLogo}
               />
             </Link>
             <ul className="theme-profile-logout-container">

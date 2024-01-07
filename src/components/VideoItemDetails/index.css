@@ -60,12 +60,7 @@
 .dot {
   text-align: bottom;
 }
-.like-clicked {
-  background-color: #2563eb;
-}
-.unlike-clicked {
-  background-color: #2563eb;
-}
+
 .success-background-dark {
   background-color: #181818;
   color: #ffffff;

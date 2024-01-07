@@ -13,7 +13,14 @@ import SavedVideosContext from './context/SavedVideosContext'
 import './App.css'
 
 class App extends Component {
-  state = {savedVideosList: [], activeTheme: 'false'}
+  state = {
+    savedVideosList: [],
+    activeTheme: 'false',
+    homeButtonActive: true,
+    trendingButtonActive: false,
+    gamingButtonActive: false,
+    savedVideosButtonActive: false,
+  }
 
   addToSavedVideos = video => {
     const {savedVideosList} = this.state
@@ -43,8 +50,49 @@ class App extends Component {
     this.setState(prevState => ({activeTheme: !prevState.activeTheme}))
   }
 
+  changeActiveTrendingButtonStatus = () => {
+    this.setState({
+      trendingButtonActive: true,
+    })
+    this.setState({homeButtonActive: false})
+    this.setState({gamingButtonActive: false})
+    this.setState({savedVideosButtonActive: false})
+  }
+
+  changeActiveGamingButtonStatus = () => {
+    this.setState({
+      gamingButtonActive: true,
+    })
+    this.setState({homeButtonActive: false})
+    this.setState({trendingButtonActive: false})
+    this.setState({savedVideosButtonActive: false})
+  }
+
+  changeActiveSavedVideosButtonStatus = () => {
+    this.setState({
+      savedVideosButtonActive: true,
+    })
+    this.setState({homeButtonActive: false})
+    this.setState({trendingButtonActive: false})
+    this.setState({gamingButtonActive: false})
+  }
+
+  changeActiveHomeButtonStatus = () => {
+    this.setState({homeButtonActive: true})
+    this.setState({gamingButtonActive: false})
+    this.setState({trendingButtonActive: false})
+    this.setState({savedVideosButtonActive: false})
+  }
+
   render() {
-    const {activeTheme, savedVideosList} = this.state
+    const {
+      activeTheme,
+      savedVideosList,
+      homeButtonActive,
+      trendingButtonActive,
+      gamingButtonActive,
+      savedVideosButtonActive,
+    } = this.state
     const backgroundTheme = activeTheme ? 'white' : 'dark'
     return (
       <BrowserRouter>
@@ -55,6 +103,16 @@ class App extends Component {
             backgroundTheme,
             changeTheme: this.changeTheme,
             deleteSavedVideo: this.deleteSavedVideo,
+            changeActiveTrendingButtonStatus: this
+              .changeActiveTrendingButtonStatus,
+            changeActiveGamingButtonStatus: this.changeActiveGamingButtonStatus,
+            changeActiveSavedVideosButtonStatus: this
+              .changeActiveSavedVideosButtonStatus,
+            changeActiveHomeButtonStatus: this.changeActiveHomeButtonStatus,
+            homeButtonActive,
+            trendingButtonActive,
+            gamingButtonActive,
+            savedVideosButtonActive,
           }}
         >
           <Switch>
